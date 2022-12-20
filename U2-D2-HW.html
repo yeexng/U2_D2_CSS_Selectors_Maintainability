@@ -41,7 +41,7 @@
         } */
 
         /* Ex 2 */
-        /* nav {
+        /* nav > * {
             background-color: blue;
         } */
 
@@ -61,7 +61,7 @@
         } */
 
         /* Ex 6 */
-        /* .blog-pagination > a + a{
+        /* nav span:nth-of-type(2n){
             background-color: red;
         } */
         /* need to remove the disabled class in "a" */
@@ -425,15 +425,16 @@
     </footer>
 
     <a href="#" class="float-right mb-3 mr-3">Back to top</a>
+
     <script>
         /* JS Exercises should go here */
         // Write a JavaScript functionality to add a new link into the navbar
         // Ex 13
 
-        function addingNewLinkIntoNavbar() {
-            let navbar = document.querySelector(".blog-pagination")
+        function addingNewLinkIntoNavbar(text) {
+            let navbar = document.querySelector("nav")
             let newLink = document.createElement("a")
-            newLink.innerText = "New Link"
+            newLink.innerText = text
             newLink.href = "#"
             navbar.appendChild(newLink)
         }
@@ -463,8 +464,9 @@
         // Ex 17
         function removingFirst50CharactersInBlog() {
             let blogPost = document.querySelectorAll(".blog-post > .blog-post-meta + p")
-            removing50 = blogPost.substring(50);
-            console.log(removing50)
+            for (let p of blogPost){
+                p.innerText = p.innerText.substring(50);
+            }
         }
 
         // Write a JavaScript functionality to add a new Blog Post (div with title and text)
@@ -473,44 +475,44 @@
             let mainBlogNode = document.querySelector(".col-md-8.blog-main")
             let newBlogPostDiv = document.createElement("div")
             newBlogPostDiv.classList.add = "blog-post"
-            mainBlogNode.appendChild(newBlogPostDiv)
-
+            
             let h2Title = document.createElement("h2")
             h2Title.innerText = "New Title"
             h2Title.classList.add = "blog-post-title"
-            newBlogPostDiv.appendChild(h2Title)
-
+            
+            let author = document.createElement("p");
+            author.className = "blog-post-meta";
+            author.innerHTML = "December 20, 2022 by <a href='#'>Sam</a>";
+            
             let blogContent = document.createElement("p")
             blogContent.innerText = "BLABLABLABLABLABLABLABLABLABLABLA......"
-            newBlogPostDiv.appendChild(blogContent)
+            // mainBlogNode.appendChild(newBlogPostDiv)
+            newBlogPostDiv.appendChild(h2Title);
+            newBlogPostDiv.appendChild(author);
+            newBlogPostDiv.appendChild(blogContent);
+            mainBlogNode.insertBefore(newBlogPostDiv,mainBlogNode.lastElementChild)
         }
 
         // Write a JavaScript functionality to remove the last Blog Post when the user clicks on the "Older" button
         // Ex 19
         function removingLastBlogPost() {
             let olderBtn = document.querySelector(".blog-pagination > a:nth-of-type(1)")
-            let mainBlogNode = document.querySelector(".col-md-8.blog-main")
-            let lastPost = document.querySelector(".blog-post:nth-of-type(3)")
-
-            function removingBlogPost() {
-                mainBlogNode.removeChild(lastPost)
+            olderBtn.removeAttribute("href")
+            olderBtn.onclick = function () {
+                document.querySelector("main > .row > div.blog-main > .blog-post:last-of-type").remove();
             }
-            olderBtn.addEventListener("click", function() {
-                mainBlogNode.removeChild(lastPost)
-            })            
-            
-
         }
 
         // Write a JavaScript functionality that will create an alert with the name of the author every time the user hovers the mouse on an author's name
-
+        // Ex 20
         function hoverAlerts() {
-            let authorsName = document.querySelectorAll(".blog-post-meta");
-            let authors = 
+            let authorsName = document.querySelectorAll(".blog-post-meta > a");
+            for (let a of authorsName){
 
-            authorsName.addEventListener("mouseover",function() {
-                alert("authors");
-            })
+                a.addEventListener("mouseover",function() {
+                    alert(event.target.innerText);
+                });
+            }
             
         }
         // EXTRA Write a JavaScript functionality that will remove the corresponding parent card from the DOM, upon clicking on their “Continue reading” link
